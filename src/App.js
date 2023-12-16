@@ -2,11 +2,16 @@ import { MissionUtils } from '@woowacourse/mission-utils';
 
 const holidays = {
     1: [1],
+    2: [0],
     3: [1],
+    4: [0],
     5: [5],
     6: [6],
+    7: [0],
     8: [15],
+    9: [0],
     10: [3, 9],
+    11: [0],
     12: [25]
 }
 
@@ -201,10 +206,10 @@ class App {
             const dayOfWeek = this.devideDay(month, i, day);
             const worker = this.getNextWorker('', dayOfWeek);
             if(dayOfWeek === 'H'){
-                MissionUtils.Console.print(`${month}월 ${i}일 ${day}(휴일) : ${worker}`);
+                MissionUtils.Console.print(`${month}월 ${i}일 ${day}(휴일) ${worker}`);
                 continue;
             }
-            MissionUtils.Console.print(`${month}월 ${i}일 ${day} : ${worker}`);
+            MissionUtils.Console.print(`${month}월 ${i}일 ${day} ${worker}`);
         }
     }
 }
