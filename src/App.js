@@ -1,4 +1,17 @@
+const holidays = {
+    1: [1],
+    3: [1],
+    5: [5],
+    6: [6],
+    8: [15],
+    10: [3, 9],
+    12: [25]
+}
+
 class App {
+
+    pointer = [0, 0];
+
     async run() {}
 
     getMonthAndDay(text) {
@@ -63,6 +76,18 @@ class App {
         return true;
     }
 
+    devideDay(month, date, dayOfWeek) {
+        if (dayOfWeek === '토' || dayOfWeek === '일') {
+            return 'W';
+        }
+
+        if(holidays[month].includes(date)){
+            return 'H';
+        }
+
+        return 'D';
+    }
+    
 }
 
 export default App;
