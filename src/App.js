@@ -1,5 +1,13 @@
 class App {
-  async run() {}
+    async run() {}
+
+    getMonthAndDay() {
+        return []
+    }
+
+    getWorkers() {
+        return []
+    }
 }
 
 export default App;
