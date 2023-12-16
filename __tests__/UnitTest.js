@@ -122,3 +122,50 @@ describe('근무자 배치 테스트', () => {
         expect(app.getNextWorker('고니', 'D')).toEqual('솔로스타');
     })
 })
+
+describe('근무자 교환 테스트', () => {
+    const app = new App();
+    app.weekdayWorkers = ['준팍','도밥','솔로스타','고니','수아','루루'];
+    app.weekendWorkers = ['준팍','솔로스타','고니','도밥','수아','루루'];
+
+    test('처음으로 근무 할 평일 근무자를 받는다.', () => {
+        expect(app.getNextWorker('', 'D')).toEqual('준팍');
+    });
+
+    test('다음으로 근무 할 주말 근무자를 받는다.', () => {
+        expect(app.getNextWorker('준팍', 'W')).toEqual('솔로스타');
+    });
+
+    test('다음으로 근무 할 주말 근무자를 받는다.', () => {
+        expect(app.getNextWorker('솔로스타', 'W')).toEqual('준팍');
+    });
+
+    test('처음으로 근무 할 평일 근무자를 받는다.', () => {
+        expect(app.getNextWorker('준팍', 'D')).toEqual('도밥');
+    });
+
+    test('처음으로 근무 할 평일 근무자를 받는다.', () => {
+        expect(app.getNextWorker('도밥', 'D')).toEqual('솔로스타');
+    });
+
+    test('처음으로 근무 할 평일 근무자를 받는다.', () => {
+        expect(app.getNextWorker('솔로스타', 'D')).toEqual('고니');
+    });
+
+    test('다음으로 근무 할 주말 근무자를 받는다.', () => {
+        expect(app.getNextWorker('고니', 'W')).toEqual('도밥');
+    });
+
+    test('다음으로 근무 할 주말 근무자를 받는다.', () => {
+        expect(app.getNextWorker('도밥', 'W')).toEqual('고니');
+    });
+
+    test('처음으로 근무 할 평일 근무자를 받는다.', () => {
+        expect(app.getNextWorker('고니', 'D')).toEqual('수아');
+    });
+
+    test('다음으로 근무 할 주말 근무자를 받는다.', () => {
+        expect(app.getNextWorker('수아', 'W')).toEqual('루루');
+    });
+
+})
