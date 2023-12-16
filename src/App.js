@@ -2,6 +2,10 @@ class App {
     async run() {}
 
     getMonthAndDay(text) {
+        if(text === ''){
+            throw new Error('[ERROR] 유효하지 않은 날짜입니다. 다시 입력해 주세요.');
+        }
+
         let [month, day] = text.split(',').map(item => item.trim());
         month = Number(month);
         day = day.trim();
@@ -29,6 +33,10 @@ class App {
     }
 
     getWorkers(text) {
+        if(text === ''){
+            throw new Error('[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요.');
+        }
+
         const workers = text.split(',').map((worker) => worker.trim());
         if(!this.workerValication(workers)){
             throw new Error('[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요.');
