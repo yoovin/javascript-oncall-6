@@ -11,6 +11,8 @@ const holidays = {
 class App {
 
     pointer = [0, 0];
+    weekdayChangeLog = {};
+    weekendChangeLog = {};
 
     async run() {}
 
@@ -89,48 +91,50 @@ class App {
     }
 
     getNextWorker(preWorker, day) {
+        let worker = '';
+
         if(day === 'D') {
-            return this.getNextFromWeekday(preWorker);
-        }
-
-        return this.getNextFromWeekend(preWorker);
-    }
-
-    getNextFromWeekday(preWorker) {
-        let worker = this.weekdayWorkers[this.pointer[0]];
-        let retry = 1;
-        
-        if(worker !== preWorker){
+            worker = this.getNextFromWeekday()
             this.pointer[0] = (this.pointer[0] + 1) % this.weekdayWorkers.length;
+
+            if(worker === preWorker){
+                const newWorker = this.getNextFromWeekday();
+                this.weekdayChangeLog[newWorker] = worker;
+                worker = newWorker;
+            }
+
             return worker;
         }
 
-        while(true) {
-            worker = this.weekdayWorkers[(this.pointer[0] + retry) % this.weekdayWorkers.length];
-            if (worker !== preWorker) {
-                break;
-            }
-            retry += 1;
+        worker = this.getNextFromWeekend();
+        this.pointer[1] = (this.pointer[1] + 1) % this.weekendWorkers.length;
+
+        if(worker === preWorker){
+            const newWorker = this.getNextFromWeekend();
+            this.weekendChangeLog[newWorker] = worker;
+            worker = newWorker;  
+        }
+
+        return worker
+    }
+
+    getNextFromWeekday() {
+        let worker = this.weekdayWorkers[this.pointer[0]];
+
+        if(this.weekdayChangeLog[worker]){
+            worker = this.weekdayChangeLog[worker];
+            this.weekdayChangeLog[worker] = null;
         }
 
         return worker;
     }
 
-    getNextFromWeekend(preWorker) {
+    getNextFromWeekend() {
         let worker = this.weekendWorkers[this.pointer[1]];
-        let retry = 1;
 
-        if(worker !== preWorker){
-            this.pointer[1] = (this.pointer[1] + 1) % this.weekendWorkers.length;
-            return worker;
-        }
-
-        while(true){
-            worker = this.weekendWorkers[(this.pointer[1] + retry) % this.weekendWorkers.length];
-            if (worker !== preWorker) {
-                break;
-            }
-            retry += 1;
+        if(this.weekendChangeLog[worker]){
+            worker = this.weekendChangeLog[worker];
+            this.weekendChangeLog[worker] = null;
         }
 
         return worker;
