@@ -71,4 +71,20 @@ describe('기능 테스트', () => {
         expect(app.getWorkers('준팍,도밥,고니,수아,루루,글로,솔로스타,우코,슬링키,참새,도리')).toEqual(['준팍', '도밥', '고니', '수아', '루루', '글로', '솔로스타', '우코', '슬링키', '참새', '도리']);
     });
 
+    // 날 구분
+    test('평일인 경우', () => {
+        expect(app.devideDay(5, 2, '화')).toEqual('D');
+    })
+
+    test('주말인 경우', () => {
+        expect(app.devideDay(5, 2, '토')).toEqual('W');
+    })
+
+    test('평일인 공휴일인 경우', () => {
+        expect(app.devideDay(5, 5, '화')).toEqual('H');
+    })
+
+    test('주말인 공휴일인 경우 주말로 구분한다.', () => {
+        expect(app.devideDay(5, 5, '토')).toEqual('W');
+    })
 });
