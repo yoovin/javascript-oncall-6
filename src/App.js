@@ -2,7 +2,7 @@ class App {
     async run() {}
 
     getMonthAndDay(text) {
-        let [month, day] = text.split(',');
+        let [month, day] = text.split(',').map(item => item.trim());
         month = Number(month);
         day = day.trim();
 
