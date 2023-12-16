@@ -92,3 +92,25 @@ describe('날 구분 테스트', () => {
         expect(app.devideDay(5, 5, '토')).toEqual('W');
     });
 });
+
+describe('근무자 배치 테스트', () => {
+    const app = new App();
+    app.weekdayWorkers = ['준팍','도밥','솔로스타','고니','수아','루루','글로','우코','슬링키','참새','도리'];
+    app.weekendWorkers = ['글로','솔로스타','우코','슬링키','참새','도리','준팍','도밥','고니','수아','루루'];
+
+    test('다음으로 근무 할 평일 근무자를 받는다.', () => {
+        expect(app.getNextWorker('준팍', 'D')).toEqual('도밥');
+    });
+
+    test('다음으로 근무 할 주말 근무자를 받는다.', () => {
+        expect(app.getNextWorker('도밥', 'W')).toEqual('글로');
+    });
+
+    test('다음으로 근무 할 공휴일 근무자를 받는다.', () => {
+        expect(app.getNextWorker('글로', 'H')).toEqual('솔로스타');
+    });
+
+    test('이전에 근무한 근무자가 다음 근무면 건너 뛴다.', () => {
+        expect(app.getNextWorker('솔로스타', 'D')).toEqual('고니');
+    });
+})
