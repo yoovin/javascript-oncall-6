@@ -1,3 +1,5 @@
+import { MissionUtils } from '@woowacourse/mission-utils';
+
 const holidays = {
     1: [1],
     3: [1],
@@ -8,13 +10,49 @@ const holidays = {
     12: [25]
 }
 
+const lastDates = {
+    1: 31,
+    2: 28,
+    3: 31,
+    4: 30, 
+    5: 31,
+    6: 30, 
+    7: 31,
+    8: 31,
+    9: 30, 
+    10: 31,
+    11: 30, 
+    12: 31
+}
+
+const days = ['월', '화', '수', '목', '금', '토', '일'];
+
 class App {
 
     pointer = [0, 0];
     weekdayChangeLog = {};
     weekendChangeLog = {};
 
-    async run() {}
+    async run() {
+        const [month, day] = await this.getUserMonthAndDay();
+        const [weekdayWorkers, weekendWorkers] = await this.getUserWorkers();
+        this.weekdayWorkers = weekdayWorkers;
+        this.weekendWorkers = weekendWorkers;
+        this.printSchedule(month, day);
+
+    }
+
+    async getUserMonthAndDay() {
+        try {
+            const input = await MissionUtils.Console.readLineAsync(
+                '비상 근무를 배정할 월과 시작 요일을 입력하세요> '
+            );
+            return this.getMonthAndDay(input);
+        } catch (e) {
+            MissionUtils.Console.print(e.message);
+            return this.getUserMonthAndDay()
+        }
+    }
 
     getMonthAndDay(text) {
         if(text === ''){
@@ -45,6 +83,21 @@ class App {
             return true;
         }
         return false;
+    }
+
+    async getUserWorkers() {
+        try {
+            const inputWeekday = await MissionUtils.Console.readLineAsync(
+                '평일 비상 근무 순번대로 사원 닉네임을 입력하세요> '
+            );
+            const inputWeekend = await MissionUtils.Console.readLineAsync(
+                '휴일 비상 근무 순번대로 사원 닉네임을 입력하세요> '
+            );
+            return [this.getWorkers(inputWeekday), this.getWorkers(inputWeekend)];
+        } catch (e) {
+            MissionUtils.Console.print(e.message);
+            return this.getUserWorkers();
+        }
     }
 
     getWorkers(text) {
@@ -138,6 +191,21 @@ class App {
         }
 
         return worker;
+    }
+
+    printSchedule(month, day) {
+        const lastDate = lastDates[month];
+        const firstDay = days.indexOf(day);
+        for(let i = 1; i <= lastDate; i++){
+            const day = days[(firstDay + i-1) % 7]
+            const dayOfWeek = this.devideDay(month, i, day);
+            const worker = this.getNextWorker('', dayOfWeek);
+            if(dayOfWeek === 'H'){
+                MissionUtils.Console.print(`${month}월 ${i}일 ${day}(휴일) : ${worker}`);
+                continue;
+            }
+            MissionUtils.Console.print(`${month}월 ${i}일 ${day} : ${worker}`);
+        }
     }
 }
 
