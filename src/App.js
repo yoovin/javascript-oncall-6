@@ -87,7 +87,46 @@ class App {
 
         return 'D';
     }
-    
+
+    getNextWorker(preWorker, day) {
+        let worker = '';
+        let retry = 1;
+
+        if (day === 'D') {
+            worker = this.weekdayWorkers[this.pointer[0]];
+            if(worker !== preWorker){
+                this.pointer[0] = (this.pointer[0] + 1) % this.weekdayWorkers.length;
+                return worker;
+            }
+        }else{
+            worker = this.weekendWorkers[this.pointer[1]];
+            if(worker !== preWorker){
+                this.pointer[1] = (this.pointer[1] + 1) % this.weekendWorkers.length;
+                return worker;
+            }
+        }
+
+        while (true) {
+            if(retry > this.weekdayWorkers.length){
+                retry = 0
+            }
+            
+            if (day === 'D') {
+                worker = this.weekdayWorkers[this.pointer[0]+retry];
+            } else {
+                worker = this.weekendWorkers[this.pointer[1]+retry];
+            }
+
+            if (worker !== preWorker) {
+                break;
+            }
+
+            retry += 1;
+        }
+
+        return worker
+    }
+
 }
 
 export default App;
