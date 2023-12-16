@@ -28,9 +28,33 @@ class App {
         return false;
     }
 
-    getWorkers() {
-        return []
+    getWorkers(text) {
+        const workers = text.split(',').map((worker) => worker.trim());
+        if(!this.workerValication(workers)){
+            throw new Error('[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요.');
+        }
+        return workers
     }
+
+    workerValication(workers) {
+        const set = new Set(workers);
+        if (set.size !== workers.length) {
+            return false;
+        }
+
+        if (workers.length > 35) {
+            return false;
+        }
+
+        for (let worker of workers) {
+            if (worker.length > 5) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
 }
 
 export default App;
