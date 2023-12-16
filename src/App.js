@@ -89,44 +89,52 @@ class App {
     }
 
     getNextWorker(preWorker, day) {
-        let worker = '';
-        let retry = 1;
-
-        if (day === 'D') {
-            worker = this.weekdayWorkers[this.pointer[0]];
-            if(worker !== preWorker){
-                this.pointer[0] = (this.pointer[0] + 1) % this.weekdayWorkers.length;
-                return worker;
-            }
-        }else{
-            worker = this.weekendWorkers[this.pointer[1]];
-            if(worker !== preWorker){
-                this.pointer[1] = (this.pointer[1] + 1) % this.weekendWorkers.length;
-                return worker;
-            }
+        if(day === 'D') {
+            return this.getNextFromWeekday(preWorker);
         }
 
-        while (true) {
-            if(retry > this.weekdayWorkers.length){
-                retry = 0
-            }
-            
-            if (day === 'D') {
-                worker = this.weekdayWorkers[this.pointer[0]+retry];
-            } else {
-                worker = this.weekendWorkers[this.pointer[1]+retry];
-            }
+        return this.getNextFromWeekend(preWorker);
+    }
 
+    getNextFromWeekday(preWorker) {
+        let worker = this.weekdayWorkers[this.pointer[0]];
+        let retry = 1;
+        
+        if(worker !== preWorker){
+            this.pointer[0] = (this.pointer[0] + 1) % this.weekdayWorkers.length;
+            return worker;
+        }
+
+        while(true) {
+            worker = this.weekdayWorkers[(this.pointer[0] + retry) % this.weekdayWorkers.length];
             if (worker !== preWorker) {
                 break;
             }
-
             retry += 1;
         }
 
-        return worker
+        return worker;
     }
 
+    getNextFromWeekend(preWorker) {
+        let worker = this.weekendWorkers[this.pointer[1]];
+        let retry = 1;
+
+        if(worker !== preWorker){
+            this.pointer[1] = (this.pointer[1] + 1) % this.weekendWorkers.length;
+            return worker;
+        }
+
+        while(true){
+            worker = this.weekendWorkers[(this.pointer[1] + retry) % this.weekendWorkers.length];
+            if (worker !== preWorker) {
+                break;
+            }
+            retry += 1;
+        }
+
+        return worker;
+    }
 }
 
 export default App;
