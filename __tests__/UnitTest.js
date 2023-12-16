@@ -10,7 +10,7 @@ describe('기능 테스트', () => {
     });
 
     test('월이 1~12의 숫자가 아닌 경우', () => {
-        expact(() => {
+        expect(() => {
             app.getMonthAndDay('0, 수');
         }).toThrow('[ERROR] 유효하지 않은 날짜입니다. 다시 입력해 주세요.');
     });
