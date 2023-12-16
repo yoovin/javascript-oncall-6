@@ -21,7 +21,7 @@ describe('기능 테스트', () => {
 
     test('요일이 월~일이 아닌 경우', () => {
         expect(() => {
-            app.getMonthAndDay('12, 화');
+            app.getMonthAndDay('12, 해');
         }).toThrow('[ERROR] 유효하지 않은 날짜입니다. 다시 입력해 주세요.');
     });
 
