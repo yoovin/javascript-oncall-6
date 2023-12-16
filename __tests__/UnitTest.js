@@ -1,9 +1,8 @@
 import App from '../src/App.js';
 
-describe('기능 테스트', () => {
+describe('날짜 입력 테스트', () => {
     const app = new App();
 
-    //날짜 
     test('날짜 입력이 공백인 경우', () => {
         expect(() => {
             app.getMonthAndDay('');
@@ -42,7 +41,10 @@ describe('기능 테스트', () => {
         }).toThrow('[ERROR] 유효하지 않은 날짜입니다. 다시 입력해 주세요.');
     });
 
-    // 근무자
+});
+
+describe('근무자 입력 테스트', () => {
+    const app = new App();
     test('근무자 입력이 공백인 경우', () => {
         expect(() => {
             app.getWorkers('');
@@ -70,21 +72,23 @@ describe('기능 테스트', () => {
     test('근무자의 인원이 형식에 맞게 입력되는 경우', () => {
         expect(app.getWorkers('준팍,도밥,고니,수아,루루,글로,솔로스타,우코,슬링키,참새,도리')).toEqual(['준팍', '도밥', '고니', '수아', '루루', '글로', '솔로스타', '우코', '슬링키', '참새', '도리']);
     });
+});
 
-    // 날 구분
+describe('날 구분 테스트', () => {
+    const app = new App();
     test('평일인 경우', () => {
         expect(app.devideDay(5, 2, '화')).toEqual('D');
-    })
+    });
 
     test('주말인 경우', () => {
         expect(app.devideDay(5, 2, '토')).toEqual('W');
-    })
+    });
 
     test('평일인 공휴일인 경우', () => {
         expect(app.devideDay(5, 5, '화')).toEqual('H');
-    })
+    });
 
     test('주말인 공휴일인 경우 주말로 구분한다.', () => {
         expect(app.devideDay(5, 5, '토')).toEqual('W');
-    })
+    });
 });
